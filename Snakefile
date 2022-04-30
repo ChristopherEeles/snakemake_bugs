@@ -3,6 +3,12 @@ rule all:
     input:
         "test.done"
 
+rule create_rule:
+    output:
+        "data/test{num}.txt"
+    shell:
+        "touch {output}"
+
 rule test_rule:
     input:
         "data/test{num}.txt"
@@ -13,9 +19,9 @@ rule test_rule:
     shell:
         "cp {input} {output}"
 
-rule test_rule2:
+checkpoint test_rule2:
     input:
-        "results/test{num}.txt"
+        [f"results/test{num}.txt" for num in range(1, 1001)]
     output:
         "results/other{num}.txt"
     group:
@@ -25,7 +31,7 @@ rule test_rule2:
 
 rule aggregate:
     input:
-        [f"results/other{num}.txt" for num in range(1, 101)]
+       [f"results/other{num}.txt" for num in range(1, 1001)]
     output:
         "test.done"
     shell:
