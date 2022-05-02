@@ -1,3 +1,4 @@
 
-myfn <- list.files(path="results", pattern="test*", full.names = TRUE)
-write.csv(sort(myfn), "testFilesExisting.csv")
+myfn <- paste0("data/test", seq_len(100), ".txt")
+write.csv(sort(myfn), "createOutput.csv")
+
