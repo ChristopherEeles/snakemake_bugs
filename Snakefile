@@ -19,19 +19,22 @@ rule test_rule:
     shell:
         "cp {input} {output}"
 
+
+
+
 checkpoint test_rule2:
     input:
-        [f"results/test{num}.txt" for num in range(1, 1001)]
+        [f"results/test{num}.txt" for num in range(1, 401)]
     output:
         "results/other{num}.txt"
-    group:
-        "batch2"
+   # group:
+   #     "batch2"
     shell:
         "cp {input} {output}"
 
 rule aggregate:
     input:
-       [f"results/other{num}.txt" for num in range(1, 1001)]
+       [f"results/other{num}.txt" for num in range(1, 401)]
     output:
         "test.done"
     shell:
