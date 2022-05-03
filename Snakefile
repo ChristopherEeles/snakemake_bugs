@@ -7,21 +7,14 @@ rule all:
 
 rule create_rule:
     output:
-        "data/test{num}.txt"
-    shell:
-        "touch {output}"
+        touch("data/test{num}.txt")
 
 
 checkpoint getCreateExpectedFiles:
     output:
         "createOutput.csv"
-    shell:
-        """
-        #! /bin/bash
-        set +u;
-
-        Rscript readFilesAndWriteTable.R
-        """
+    script:
+        "readFilesAndWriteTable.R"
 
 
 
@@ -37,13 +30,8 @@ checkpoint getResultExpectedFiles:
     input: getCreateOutput
     output:
         "resultsOutput.csv"
-    shell:
-        """
-        #! /bin/bash
-        set +u;
-
-        Rscript readFilesAndWriteTable2.R
-        """
+    script:
+        "readFilesAndWriteTable2.R"
 
 
 
@@ -68,6 +56,4 @@ rule test_rule:
 rule aggregate:
     input: getResultsOutput
     output:
-        "test.done"
-    shell:
-        "touch test.done"
+        touch("test.done")
